@@ -68,8 +68,36 @@ export default {
       },
       backgroundImage: {
         "radial-gradient": "radial-gradient(var(--tw-gradient-stops))",
-        "conic-gradient":
-          "conic-gradient(from 225deg, #FFC876, #79FFF7, #9F53FF, #FF98E2, #FFC876)",
+        "conic-gradient": "conic-gradient(from 225deg, #FFFFFF, #FFFFFF, #FFD700, #FFFFFF)",
+      },
+      keyframes: {
+        floating: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-10px)' },
+        },
+      },
+      animation: {
+        floating: 'floating 3s ease-in-out infinite',
+      },
+      inset: {
+        '1/23': '4.35%',
+        '1/15': '6.7%',
+        '1/12': '8.33%',
+        '1/20': '5%',
+        '1/16': '6.25%',  
+        '1/18': '5.6%',  
+        '1/10': '10%',
+        '1/8': '12.5%',
+        '1/6': '16.67%',
+        '1/5': '20%',
+        '3/10': '30%',
+        '1/3': '33.33%',
+        '2/5': '40%',
+        '1/2': '50%',
+        '3/5': '60%',
+        '2/3': '66.67%',
+        '4/5': '80%',
+        '7/10': '70%',
       },
     },
   },
@@ -78,16 +106,13 @@ export default {
       addBase({});
       addComponents({
         ".container": {
-          "@apply max-w-[77.5rem] mx-auto px-5 md:px-10 lg:px-15 xl:max-w-[87.5rem]":
-            {},
+          "@apply max-w-[77.5rem] mx-auto px-5 md:px-10 lg:px-15 xl:max-w-[87.5rem]": {},
         },
         ".h1": {
-          "@apply font-semibold text-[2.5rem] leading-[3.25rem] md:text-[2.75rem] md:leading-[3.75rem] lg:text-[3.25rem] lg:leading-[4.0625rem] xl:text-[3.75rem] xl:leading-[4.5rem]":
-            {},
+          "@apply font-semibold text-[2.5rem] leading-[3.25rem] md:text-[2.75rem] md:leading-[3.75rem] lg:text-[3.25rem] lg:leading-[4.0625rem] xl:text-[3.75rem] xl:leading-[4.5rem]": {},
         },
         ".h2": {
-          "@apply text-[1.75rem] leading-[2.5rem] md:text-[2rem] md:leading-[2.5rem] lg:text-[2.5rem] lg:leading-[3.5rem] xl:text-[3rem] xl:leading-tight":
-            {},
+          "@apply text-[1.75rem] leading-[2.5rem] md:text-[2rem] md:leading-[2.5rem] lg:text-[2.5rem] lg:leading-[3.5rem] xl:text-[3rem] xl:leading-tight": {},
         },
         ".h3": {
           "@apply text-[2rem] leading-normal md:text-[2.5rem]": {},
@@ -102,8 +127,7 @@ export default {
           "@apply font-semibold text-lg leading-8": {},
         },
         ".body-1": {
-          "@apply text-[0.875rem] leading-[1.5rem] md:text-[1rem] md:leading-[1.75rem] lg:text-[1.25rem] lg:leading-8":
-            {},
+          "@apply text-[0.875rem] leading-[1.5rem] md:text-[1rem] md:leading-[1.75rem] lg:text-[1.25rem] lg:leading-8": {},
         },
         ".body-2": {
           "@apply font-light text-[0.875rem] leading-6 md:text-base": {},
@@ -112,8 +136,7 @@ export default {
           "@apply text-sm": {},
         },
         ".tagline": {
-          "@apply font-grotesk font-light text-xs tracking-tagline uppercase":
-            {},
+          "@apply font-grotesk font-light text-xs tracking-tagline uppercase": {},
         },
         ".quote": {
           "@apply font-code text-lg leading-normal": {},
@@ -130,3 +153,4 @@ export default {
     }),
   ],
 };
+

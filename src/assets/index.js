@@ -1,5 +1,8 @@
 import gotha from "./gotha.svg";
+import profile from "./profile.png";
 import check from "./check.svg";
+import pinpoint from "./pinpoint.png"
+import arrow from "./arrow.png";
 import play from "./play.svg";
 import gradient from "./gradient.png";
 import grid from "./grid.png";
@@ -36,7 +39,6 @@ import benefitCard3 from "./info/card-3.svg";
 import benefitCard4 from "./info/card-4.svg";
 import benefitCard5 from "./info/card-5.svg";
 import benefitCard6 from "./info/card-6.svg";
-import impulseImage from "./info/impulse3.gif";
 
 import c from "./stack/languages/c.svg"
 import csharp from "./stack/languages/chash.svg"
@@ -70,10 +72,15 @@ import unity from "./stack/frameworks/unity.png"
 import tensorflow from "./stack/frameworks/tensorflow.png"
 import pytorch from "./stack/frameworks/pytorch.svg"
 import scikitlearn from "./stack/frameworks/scikitlearn.svg"
+import card6 from "./info/card-6.svg"
 
 export {
+  card6,
+  profile,
   gotha,
   check,
+  pinpoint,
+  arrow,
   check2,
   loading1,
   play,
@@ -106,7 +113,6 @@ export {
   benefitCard4,
   benefitCard5,
   benefitCard6,
-  impulseImage,
   c,
   csharp,
   cplusplus,

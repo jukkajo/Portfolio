@@ -1,94 +1,164 @@
-// src/components/ThreeScene.jsx
-import React, { useEffect } from 'react';
-import { Canvas, useLoader } from '@react-three/fiber';
+import React, { useEffect, useRef, useState } from 'react';
+import { Canvas, useFrame, useLoader } from '@react-three/fiber';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import { TextureLoader, MeshStandardMaterial, RepeatWrapping } from 'three';
-import { Stats, OrbitControls } from '@react-three/drei';
+import { OrbitControls, useAnimations } from '@react-three/drei';
+import Section from "./Section";
 
-function Model() {
-  const gltf = useLoader(GLTFLoader, '/models/gaming_laptop.glb');
-  const texture = useLoader(TextureLoader, '/models/image.png');
-  
+// Utility function to convert degrees to radians
+const degreesToRadians = (degrees) => degrees * (Math.PI / 180);
+
+function Model53({ onLoad }) {
+  const gltf = useLoader(GLTFLoader, '/models/capsule.glb');
+  const { actions } = useAnimations(gltf.animations, gltf.scene);
+  const ref = useRef();
+
   useEffect(() => {
-    if (gltf) {
-      console.log('Model loaded successfully');
-      const screenMesh = gltf.scene.getObjectByName('Object_7');
-      if (screenMesh) {
-        const material = new MeshStandardMaterial({ map: texture });
-        material.map.wrapS = RepeatWrapping;
-        material.map.wrapT = RepeatWrapping;
-        material.map.repeat.set(1, 1);
-        screenMesh.material = material;
+    if (actions) {
+      const firstActionName = Object.keys(actions)[0];
+      if (firstActionName) {
+        actions[firstActionName].play();
       }
     }
-  }, [gltf]);
+  }, [actions]);
 
-  return <primitive object={gltf.scene} rotation={[0, -Math.PI / 2, 0]} scale={[1.5, 1.5, 1.5]} position={[0, -1.6, -3]} />;
-}
-
-function Model2() {
-  const gltf = useLoader(GLTFLoader, '/models/mahogany_table.glb');
-  return <primitive object={gltf.scene} position={[0, -8, -5]} />;
-}
-
-function Model3() {
-  const gltf = useLoader(GLTFLoader, '/models/monster_zero.glb');
-  return <primitive scale={[11, 11, 11]} object={gltf.scene} position={[4, -1.55, -3.5]} />;
-}
-
-function Model4() {
-  const gltf = useLoader(GLTFLoader, '/models/photo_frame1.glb');
-  const texture = useLoader(TextureLoader, '/models/image3.jpg');
   useEffect(() => {
-    if (gltf) {
-      gltf.scene.traverse((child) => {
-        if (child.isMesh) {
-          console.log('Mesh name:', child.name);
-        }
-      });
-      const screenMesh = gltf.scene.getObjectByName('Object_17');
-      if (screenMesh) {
-        const material = new MeshStandardMaterial({ map: texture });
-        material.map.wrapS = RepeatWrapping;
-        material.map.wrapT = RepeatWrapping;
-        material.map.repeat.set(1, 1);
-        screenMesh.material = material;
+    if (gltf.scene) {
+      onLoad(); // Notify parent when model is loaded
+    }
+  }, [gltf.scene]);
+
+  const rotationX = degreesToRadians(20);
+  const rotationY = degreesToRadians(12);
+  const rotationZ = degreesToRadians(-1);
+
+  useFrame(() => {
+    if (ref.current) {
+      ref.current.rotation.y += 0.001;
+    }
+  });
+
+  return (
+    <primitive
+      ref={ref}
+      object={gltf.scene}
+      scale={[1.85, 1.85, 1.85]}
+      position={[-1, 1.3, -4]}
+      rotation={[rotationX, rotationY, rotationZ]}
+    />
+  );
+}
+
+function Model35({ onLoad }) {
+  const gltf = useLoader(GLTFLoader, '/models/astro.glb');
+  const { actions } = useAnimations(gltf.animations, gltf.scene);
+
+  useEffect(() => {
+    if (actions) {
+      const firstActionName = Object.keys(actions)[0];
+      if (firstActionName) {
+        actions[firstActionName].play();
       }
     }
-  }, [gltf]);
+  }, [actions]);
 
-  return <primitive rotation={[0, Math.PI / 5, 0]} scale={[1.6, 1.6, 1.6]} object={gltf.scene} position={[-5, 0.1, -4]} />;
+  useEffect(() => {
+    if (gltf.scene) {
+      onLoad(); // Notify parent when model is loaded
+    }
+  }, [gltf.scene]);
+
+  const rotationY = degreesToRadians(-44.5);
+
+  return (
+    <primitive
+      rotation={[0, rotationY, 0]}
+      object={gltf.scene}
+      position={[3, -1, -1.5]}
+    />
+  );
 }
 
 const ThreeScene = () => {
+  const [isLoading, setIsLoading] = useState(true);
+  const componentRef = useRef(null);
+  const bubbleRef = useRef(null);
+
+  const handleModelLoad = () => {
+    setIsLoading(false); // Set loading state to false when models are loaded
+  };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (bubbleRef.current) {
+        const scrolled = window.scrollY;
+        bubbleRef.current.style.transform = `translateY(${scrolled * 0.1}px)`;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   return (
-    <div className="flex flex-col items-center justify-center w-screen h-screen">
-      <h1>Welcome To My Portfolio</h1>
-      <div className="w-[90vw] h-[70vh]">
-        <Canvas
-          camera={{ position: [-0.5, 1, 2] }}
-          shadows
-          gl={{ antialias: true, alpha: true }}
-          style={{ background: 'transparent' }}
-        >
-          {/* Directional light */}
-          <directionalLight position={[3.3, 1.0, 4.4]} intensity={2} castShadow />
-
-          {/* Ambient light */}
-          <ambientLight intensity={0.9} />
-
-          {/* Models */}
-          <Model />
-          <Model2 />
-          <Model3 />
-          <Model4 />
-          {/* Controls and stats */}
-          <OrbitControls target={[0, 1, 0]} />
-        </Canvas>
+    <Section id="features" className="flex flex-col items-center justify-center">
+      <div
+        ref={componentRef}
+        className="relative flex flex-col items-center justify-center w-full h-screen p-4"
+      >
+        <div className="w-full h-full max-w-[90vw] max-h-[80vh] mx-auto relative">
+          {isLoading && (
+            <div 
+              className="absolute inset-0 flex flex-col items-center justify-center z-10" 
+              style={{ backgroundColor: '#0E0C15', opacity: 0.8 }}
+            >
+              <div className="w-12 h-12 border-4 border-t-4 border-gray-200 border-t-blue-500 border-solid rounded-full animate-spin mb-4"></div>
+              <span className="text-white text-xl">Loading Scene...</span>
+            </div>
+          )}
+          <Canvas
+            camera={{ position: [-0.5, 1, 2] }}
+            shadows
+            gl={{ antialias: true, alpha: true }}
+            style={{ background: 'transparent' }}
+          >
+            <directionalLight
+              position={[5, 5, 5]}
+              intensity={2.5}
+              castShadow
+              shadow-mapSize-width={2048}
+              shadow-mapSize-height={2048}
+            />
+            <spotLight
+              position={[2, 5, 5]}
+              angle={0.3}
+              penumbra={0.5}
+              intensity={3}
+              castShadow
+              shadow-mapSize-width={2048}
+              shadow-mapSize-height={2048}
+            />
+            <spotLight
+              position={[-5, 5, 5]}
+              angle={0.3}
+              penumbra={0.5}
+              intensity={3}
+              castShadow
+              shadow-mapSize-width={2048}
+              shadow-mapSize-height={2048}
+            />
+            <ambientLight intensity={1} />
+            <Model53 onLoad={handleModelLoad} />
+            <Model35 onLoad={handleModelLoad} />
+            <OrbitControls target={[0, 1, 0]} />
+          </Canvas>
+        </div>
       </div>
-    </div>
+    </Section>
   );
-}
+};
 
 export default ThreeScene;
 
